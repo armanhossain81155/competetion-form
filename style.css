@@ -32,6 +32,7 @@
 }
 
 html {
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -241,6 +242,8 @@ a {
   position: relative;
   display: flex;
   min-height: 640px;
+  /* Pash theke baire jete dibe na (mobile-e page chowra hoye jay), kintu niche glow chorabe */
+  overflow-x: clip;
   align-items: center;
   justify-content: space-between;
   gap: 40px;
@@ -1335,8 +1338,11 @@ a:focus-visible {
 @media (max-width: 640px) {
   .site-header {
     top: 10px;
-    width: calc(100% - 1.25rem);
+    right: 10px;
+    left: 10px;
+    width: auto;
     padding: 8px 8px 8px 10px;
+    transform: none;
   }
 
   .brand > span:last-child {
