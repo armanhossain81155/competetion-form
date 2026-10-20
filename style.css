@@ -49,13 +49,14 @@ body {
 body::before {
   position: fixed;
   z-index: -2;
-  inset: -20%;
+  inset: 0;
   background:
     radial-gradient(40% 35% at 15% 20%, #6366f155, transparent 70%),
     radial-gradient(35% 30% at 85% 30%, #ec489944, transparent 70%),
     radial-gradient(40% 35% at 70% 85%, #14b8a644, transparent 70%),
     radial-gradient(35% 30% at 20% 80%, #a855f744, transparent 70%),
     linear-gradient(180deg, #0e0a24, #120b30 50%, #0a0a1f);
+  background-size: 140% 140%;
   content: "";
   animation: aurora 30s ease-in-out infinite alternate;
 }
@@ -81,13 +82,13 @@ body::after {
 
 @keyframes aurora {
   0% {
-    transform: translate(0, 0) rotate(0deg);
+    background-position: 0% 0%;
   }
   50% {
-    transform: translate(4%, -3%) rotate(4deg);
+    background-position: 100% 30%;
   }
   100% {
-    transform: translate(-3%, 4%) rotate(-3deg);
+    background-position: 30% 100%;
   }
 }
 
@@ -242,8 +243,6 @@ a {
   position: relative;
   display: flex;
   min-height: 640px;
-  /* Pash theke baire jete dibe na (mobile-e page chowra hoye jay), kintu niche glow chorabe */
-  overflow-x: clip;
   align-items: center;
   justify-content: space-between;
   gap: 40px;
@@ -253,8 +252,22 @@ a {
   isolation: isolate;
 }
 
-.hero::before,
-.hero::after {
+/* Glow container: pash theke kete dey (mobile-e page chowra hoy na), kintu niche cards porjonto chorate dey */
+.hero-glow {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: -320px;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(#000 55%, transparent);
+  mask-image: linear-gradient(#000 55%, transparent);
+}
+
+.hero-glow::before,
+.hero-glow::after {
   position: absolute;
   z-index: -1;
   border-radius: 50%;
@@ -263,7 +276,7 @@ a {
   animation: drift 18s ease-in-out infinite alternate;
 }
 
-.hero::before {
+.hero-glow::before {
   top: -160px;
   left: -120px;
   width: 620px;
@@ -272,7 +285,7 @@ a {
   opacity: 0.75;
 }
 
-.hero::after {
+.hero-glow::after {
   right: -160px;
   bottom: -220px;
   width: 680px;
@@ -1326,12 +1339,7 @@ a:focus-visible {
   }
 
   .hero-art {
-    position: absolute;
-    top: 90px;
-    right: -90px;
-    width: 280px;
-    height: 280px;
-    opacity: 0.3;
+    display: none;
   }
 }
 

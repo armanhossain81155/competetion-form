@@ -6,9 +6,10 @@
   <meta name="description" content="Register online for the International Kids Qur'an Competition.">
   <meta name="theme-color" content="#0f2a44">
   <title>Kids Qur'an Competition | Registration</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="config.js" defer></script>
-  <script src="script.js" defer></script>
+  <!-- ?v= number bariye dile phone-er browser notun file load korbe (cache e puron ta dekhabe na) -->
+  <link rel="stylesheet" href="style.css?v=5">
+  <script src="config.js?v=5" defer></script>
+  <script src="script.js?v=5" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -27,6 +28,7 @@
 
   <main id="top">
     <section class="hero" aria-labelledby="page-title">
+      <div class="hero-glow" aria-hidden="true"></div>
       <div class="hero-copy">
         <p class="bismillah" lang="ar">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
         <h1 id="page-title"><span data-config="title"></span><br><em data-config="region"></em></h1>
