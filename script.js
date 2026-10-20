@@ -148,6 +148,7 @@ const dobDay = document.querySelector("#dob-day");
 const successBox = document.querySelector("#success-box");
 
 let lang = loadLang();
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function toBn(value) {
   return String(value).replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[d]);
@@ -277,6 +278,8 @@ function render() {
     })
   );
 
+  splitWords(document.querySelector('#page-title [data-config="title"]'));
+  markRevealItems();
   renderGroupOptions();
   renderDobOptions();
   renderDeadline();
@@ -295,6 +298,148 @@ function renderGroupOptions() {
   });
   groupSelect.replaceChildren(placeholder, ...options);
   groupSelect.value = selected;
+}
+
+// Title-er protiti shobdo alada span-e, jate ek ek kore animate hoy.
+function splitWords(node) {
+  const words = node.textContent.split(/\s+/).filter(Boolean);
+  node.replaceChildren(
+    ...words.flatMap((word, i) => {
+      const span = el("span", "word", word);
+      span.style.setProperty("--i", i);
+      return i ? [document.createTextNode(" "), span] : [span];
+    })
+  );
+}
+
+// Scroll-e uthe asha card-er bhetorer list item gulo ek ek kore ashe.
+function markRevealItems() {
+  document.querySelectorAll("[data-reveal] li").forEach((li) => {
+    li.classList.add("reveal-item");
+    li.style.setProperty("--i", [...li.parentElement.children].indexOf(li));
+  });
+}
+
+// Lekhar bhetorer prothom shongkha (jemon ¥30,000 ba ২৯৭) 0 theke gune bare.
+function countUp(node, duration = 1500) {
+  const original = node.textContent;
+  const match = original.match(/[0-9০-৯]+(?:,[0-9০-৯]{3})*/);
+  if (!match || reduceMotion) return;
+  const isBn = /[০-৯]/.test(match[0]);
+  const target = Number(match[0].replace(/[০-৯]/g, (d) => "০১২৩৪৫৬৭৮৯".indexOf(d)).replace(/,/g, ""));
+  const startLang = lang;
+  const start = performance.now();
+  const step = (now) => {
+    if (lang !== startLang) return; // bhasha bodlale render() notun lekha boshabe
+    const progress = Math.min((now - start) / duration, 1);
+    const value = Math.round(target * (1 - Math.pow(1 - progress, 3))).toLocaleString("en-US");
+    node.textContent = original.replace(match[0], isBn ? toBn(value) : value);
+    if (progress < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function setupReveal() {
+  const targets = document.querySelectorAll("[data-reveal]");
+  if (!("IntersectionObserver" in window)) {
+    targets.forEach((t) => t.classList.add("is-visible"));
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+        const prizes = entry.target.querySelector("#prize-list");
+        if (prizes) setTimeout(() => prizes.querySelectorAll("div span").forEach((s) => countUp(s)), 500);
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+  );
+  targets.forEach((t) => observer.observe(t));
+}
+
+// Mouse nile card 3D-te ektu hele jay (shudhu mouse-wala device-e).
+function setupTilt() {
+  if (reduceMotion || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  let current = null;
+  const reset = (card) => {
+    card.style.transform = "";
+    card.classList.remove("is-tilting");
+  };
+  document.addEventListener("pointermove", (event) => {
+    const card = event.target.closest?.(".info-block.is-visible, .contact-list li");
+    if (current && current !== card) reset(current);
+    current = card;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    card.classList.add("is-tilting");
+    card.style.transform = `perspective(900px) rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg) translateY(-6px)`;
+  });
+  document.addEventListener("pointerleave", () => current && reset(current));
+}
+
+// Background-e sonali jonaki-r moto alo-r kona aste aste upore bhase.
+function startParticles() {
+  if (reduceMotion) return;
+  const canvas = document.createElement("canvas");
+  canvas.className = "particles";
+  canvas.setAttribute("aria-hidden", "true");
+  document.body.prepend(canvas);
+  const ctx = canvas.getContext("2d");
+  let width = 0;
+  let height = 0;
+  let frameId = 0;
+
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  const spawn = (anywhere) => ({
+    x: Math.random() * width,
+    y: anywhere ? Math.random() * height : height + 10,
+    r: Math.random() * 1.6 + 0.6,
+    speed: Math.random() * 0.35 + 0.12,
+    phase: Math.random() * Math.PI * 2,
+    alpha: Math.random() * 0.5 + 0.35,
+  });
+
+  resize();
+  const particles = Array.from({ length: width < 640 ? 26 : 55 }, () => spawn(true));
+  window.addEventListener("resize", resize);
+
+  const frame = (time) => {
+    ctx.clearRect(0, 0, width, height);
+    for (const p of particles) {
+      p.y -= p.speed;
+      p.phase += 0.01;
+      p.x += Math.sin(p.phase) * 0.3;
+      if (p.y < -10) Object.assign(p, spawn(false));
+      const glow = p.alpha * (0.6 + 0.4 * Math.sin(time / 600 + p.phase * 3));
+      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4);
+      gradient.addColorStop(0, `rgba(253, 230, 138, ${glow})`);
+      gradient.addColorStop(1, "rgba(253, 230, 138, 0)");
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    frameId = requestAnimationFrame(frame);
+  };
+  frameId = requestAnimationFrame(frame);
+
+  // Tab lukano thakle battery bachate thamiye rakhe
+  document.addEventListener("visibilitychange", () => {
+    cancelAnimationFrame(frameId);
+    if (!document.hidden) frameId = requestAnimationFrame(frame);
+  });
 }
 
 // placeholder option rekhe baki option notun kore boshay, ager selection thakle rekhe dey.
@@ -522,3 +667,8 @@ form.addEventListener("input", (e) => e.target.removeAttribute("aria-invalid"));
 document.querySelector("#register-another").addEventListener("click", resetForm);
 
 render();
+setupReveal();
+setupTilt();
+startParticles();
+// Deadline badge entrance-er por din-er shongkha gune ashe
+setTimeout(() => countUp(document.querySelector("#deadline-countdown"), 1200), 1300);

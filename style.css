@@ -1416,6 +1416,183 @@ a:focus-visible {
   margin-top: 2px;
 }
 
+/* ---------- Animations ---------- */
+
+/* Background-er sonali alo-r kona (script.js canvas banay) */
+.particles {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 1. Page khola-r entrance — shudhu "from" deya, tai animation bondho thakleo content dekha jay */
+@keyframes intro-rise {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    translate: 0 28px;
+  }
+}
+
+@keyframes intro-down {
+  from {
+    opacity: 0;
+    translate: 0 -40px;
+  }
+}
+
+@keyframes intro-light {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    scale: 1.35;
+  }
+}
+
+@keyframes intro-zoom {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    rotate: -25deg;
+    scale: 0.5;
+  }
+}
+
+.site-header {
+  animation: intro-down 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.intro {
+  animation: intro-rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+.bismillah {
+  animation:
+    intro-light 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both,
+    halo 3.5s ease-in-out 1.6s infinite alternate;
+}
+
+@keyframes halo {
+  to {
+    filter: drop-shadow(0 0 14px #fbbf24aa);
+  }
+}
+
+.hero-art {
+  animation: intro-zoom 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s both;
+}
+
+/* Title-er protiti shobdo ek ek kore uthe ashe, tarpor sonali jhilik dheu-er moto chole */
+#page-title .word {
+  display: inline-block;
+  background: linear-gradient(110deg, #fff 40%, #fde68a 46%, #fffbeb 50%, #fbbf24 54%, #fff 60%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation:
+    intro-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    shine 7s ease-in-out infinite;
+  animation-delay: calc(0.3s + var(--i) * 0.09s), calc(2.2s + var(--i) * 0.14s);
+}
+
+@keyframes shine {
+  0% {
+    background-position: 100% 0;
+  }
+  35%,
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+h1 em {
+  background-image: linear-gradient(90deg, #fde68a, #f0abfc, #a5b4fc, #fbbf24, #fde68a);
+  background-size: 300% 100%;
+  animation:
+    intro-rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s) both,
+    pan 9s linear infinite;
+}
+
+@keyframes pan {
+  to {
+    background-position: 300% 0;
+  }
+}
+
+/* Register button-e dhukdhuk sonali ring */
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 8px 20px -6px #ec489980, 0 0 0 0 #fbbf2499;
+  }
+  70%,
+  100% {
+    box-shadow: 0 8px 20px -6px #ec489980, 0 0 0 12px #fbbf2400;
+  }
+}
+
+.header-link {
+  animation: pulse-ring 2.4s ease-out 2s infinite;
+}
+
+.submit-button {
+  animation:
+    shimmer 8s linear infinite,
+    pulse-ring 2.4s ease-out infinite;
+}
+
+/* 2. Scroll korle uthe ashe (html.js thaklei, tai JS na cholle content lukay na) */
+.js [data-reveal] {
+  opacity: 0;
+  translate: 0 60px;
+  scale: 0.96;
+  transition:
+    opacity 0.9s ease,
+    translate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+    scale 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  transition-delay: var(--d, 0s), var(--d, 0s), var(--d, 0s), 0s, 0s;
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  translate: none;
+  scale: none;
+}
+
+.js [data-reveal] .reveal-item {
+  opacity: 0;
+  translate: 0 18px;
+  transition:
+    opacity 0.6s ease,
+    translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+  transition-delay:
+    calc(var(--d, 0s) + 0.35s + var(--i, 0) * 0.08s),
+    calc(var(--d, 0s) + 0.35s + var(--i, 0) * 0.08s),
+    0s, 0s, 0s, 0s;
+}
+
+.js [data-reveal].is-visible .reveal-item {
+  opacity: 1;
+  translate: none;
+}
+
+/* 3D tilt-er shomoy hover-er CSS transform bad (script.js transform dey) */
+.info-block.is-tilting,
+.contact-list li.is-tilting {
+  transition: transform 0.12s ease-out, box-shadow 0.25s ease;
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1000px) {
