@@ -3,7 +3,7 @@
 :root {
   font-family: "Poppins", "Noto Sans Bengali", sans-serif;
   color: #ece9ff;
-  background: #0b0720;
+  background: #120d06;
   color-scheme: dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -41,7 +41,7 @@ body {
   min-width: 320px;
   margin: 0;
   overflow-x: hidden;
-  background: #0b0720;
+  background: #120d06;
   isolation: isolate;
 }
 
@@ -51,11 +51,12 @@ body::before {
   z-index: -2;
   inset: 0;
   background:
-    radial-gradient(40% 35% at 15% 20%, #6366f155, transparent 70%),
-    radial-gradient(35% 30% at 85% 30%, #ec489944, transparent 70%),
-    radial-gradient(40% 35% at 70% 85%, #14b8a644, transparent 70%),
-    radial-gradient(35% 30% at 20% 80%, #a855f744, transparent 70%),
-    linear-gradient(180deg, #0e0a24, #120b30 50%, #0a0a1f);
+    radial-gradient(40% 35% at 15% 20%, #d4a01740, transparent 70%),
+    radial-gradient(35% 30% at 85% 30%, #f59e0b30, transparent 70%),
+    radial-gradient(40% 35% at 70% 85%, #b4530938, transparent 70%),
+    radial-gradient(35% 30% at 20% 80%, #eab30830, transparent 70%),
+    radial-gradient(30% 25% at 50% 50%, #7c3aed1a, transparent 70%),
+    linear-gradient(180deg, #120d06, #1a1309 50%, #0d0905);
   background-size: 140% 140%;
   content: "";
   animation: aurora 30s ease-in-out infinite alternate;
@@ -67,13 +68,13 @@ body::after {
   z-index: -1;
   inset: 0;
   background-image:
-    radial-gradient(1.5px 1.5px at 12% 18%, #ffffffcc, transparent),
-    radial-gradient(1px 1px at 72% 12%, #ffffffaa, transparent),
-    radial-gradient(1.5px 1.5px at 88% 58%, #fde68acc, transparent),
-    radial-gradient(1px 1px at 35% 72%, #ffffffaa, transparent),
-    radial-gradient(1.5px 1.5px at 55% 40%, #f0abfccc, transparent),
-    radial-gradient(1px 1px at 8% 88%, #ffffffaa, transparent),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%23c4b5fd' stroke-opacity='0.07'%3E%3Crect x='26' y='26' width='44' height='44'/%3E%3Crect x='26' y='26' width='44' height='44' transform='rotate(45 48 48)'/%3E%3Ccircle cx='48' cy='48' r='10'/%3E%3C/g%3E%3C/svg%3E");
+    radial-gradient(1.5px 1.5px at 12% 18%, #fde68acc, transparent),
+    radial-gradient(1px 1px at 72% 12%, #fff7dbaa, transparent),
+    radial-gradient(1.5px 1.5px at 88% 58%, #fbbf24cc, transparent),
+    radial-gradient(1px 1px at 35% 72%, #fff7dbaa, transparent),
+    radial-gradient(1.5px 1.5px at 55% 40%, #fde68acc, transparent),
+    radial-gradient(1px 1px at 8% 88%, #fff7dbaa, transparent),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%23e6c36a' stroke-opacity='0.08'%3E%3Crect x='26' y='26' width='44' height='44'/%3E%3Crect x='26' y='26' width='44' height='44' transform='rotate(45 48 48)'/%3E%3Ccircle cx='48' cy='48' r='10'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 96px 96px;
   content: "";
   animation: twinkle-bg 6s ease-in-out infinite alternate;
@@ -98,13 +99,92 @@ body::after {
   }
 }
 
+/* Halka sonali Arabic calligraphy watermark — content-er pichone, opacity kom jate lekha porte shomossa na hoy */
+.calligraphy-bg {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.calligraphy-bg span {
+  position: absolute;
+  background: linear-gradient(120deg, #fde68a, #d4a017 45%, #b45309);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: "Amiri", serif;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0.07;
+  animation: callig-float 22s ease-in-out infinite alternate;
+}
+
+.calligraphy-bg .c1 {
+  top: 6%;
+  right: -2%;
+  font-size: clamp(90px, 13vw, 210px);
+  transform: rotate(-8deg);
+}
+
+.calligraphy-bg .c2 {
+  top: 34%;
+  left: 3%;
+  font-size: clamp(110px, 16vw, 260px);
+  transform: rotate(10deg);
+  animation-delay: -6s;
+}
+
+.calligraphy-bg .c3 {
+  top: 58%;
+  right: 4%;
+  font-size: clamp(60px, 8vw, 140px);
+  transform: rotate(-4deg);
+  animation-delay: -12s;
+}
+
+.calligraphy-bg .c4 {
+  bottom: 4%;
+  left: -2%;
+  font-size: clamp(70px, 10vw, 170px);
+  transform: rotate(6deg);
+  animation-delay: -3s;
+}
+
+.calligraphy-bg .c5 {
+  top: 18%;
+  left: 30%;
+  font-size: clamp(50px, 6vw, 110px);
+  opacity: 0.05;
+  transform: rotate(-12deg);
+  animation-delay: -9s;
+}
+
+.calligraphy-bg .c6 {
+  bottom: 22%;
+  left: 38%;
+  font-size: clamp(40px, 5vw, 90px);
+  opacity: 0.05;
+  transform: rotate(3deg);
+  animation-delay: -15s;
+}
+
+@keyframes callig-float {
+  to {
+    translate: 0 -24px;
+  }
+}
+
 ::selection {
-  background: #c084fc;
-  color: #fff;
+  background: #d4a017;
+  color: #120d06;
 }
 
 html {
-  scrollbar-color: #a855f7 #0e0a24;
+  scrollbar-color: #d4a017 #120d06;
 }
 
 ::-webkit-scrollbar {
@@ -112,13 +192,13 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0e0a24;
+  background: #120d06;
 }
 
 ::-webkit-scrollbar-thumb {
-  border: 2px solid #0e0a24;
+  border: 2px solid #120d06;
   border-radius: 999px;
-  background: linear-gradient(#6366f1, #a855f7, #ec4899);
+  background: linear-gradient(#fde68a, #d4a017, #b45309);
 }
 
 button,
@@ -281,8 +361,8 @@ a {
   left: -120px;
   width: 620px;
   height: 620px;
-  background: radial-gradient(circle, #6366f1 0%, #a855f7 45%, transparent 70%);
-  opacity: 0.75;
+  background: radial-gradient(circle, #f5c451 0%, #b7791f 45%, transparent 70%);
+  opacity: 0.5;
 }
 
 .hero-glow::after {
@@ -290,7 +370,7 @@ a {
   bottom: -220px;
   width: 680px;
   height: 680px;
-  background: radial-gradient(circle, #ec4899 0%, #14b8a6 50%, transparent 72%);
+  background: radial-gradient(circle, #d97706 0%, #7c3aed 55%, transparent 72%);
   opacity: 0.6;
   animation-delay: -9s;
 }
