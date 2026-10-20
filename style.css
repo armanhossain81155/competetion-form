@@ -996,6 +996,16 @@ legend::after {
   grid-column: 1 / -1;
 }
 
+.dob-select {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr 0.9fr;
+  gap: 8px;
+}
+
+.dob-select select {
+  padding-inline: 10px;
+}
+
 .hint {
   min-height: 0;
   color: #c4b5fd;

@@ -35,6 +35,9 @@ const UI = {
     female: "Girl",
     select: "Select",
     dob: "Date of birth",
+    year: "Year",
+    month: "Month",
+    day: "Day",
     ageOnEvent: (n) => `Age on competition day: ${n}`,
     group: "Competition group",
     selectGroup: "Select a group",
@@ -96,6 +99,9 @@ const UI = {
     female: "মেয়ে",
     select: "নির্বাচন করুন",
     dob: "জন্ম তারিখ",
+    year: "বছর",
+    month: "মাস",
+    day: "দিন",
     ageOnEvent: (n) => `প্রতিযোগিতার দিন বয়স: ${toBn(n)} বছর`,
     group: "প্রতিযোগিতার গ্রুপ",
     selectGroup: "গ্রুপ নির্বাচন করুন",
@@ -136,6 +142,9 @@ const groupSelect = document.querySelector("#group-select");
 const juzField = document.querySelector("#juz-field");
 const juzInput = form.elements.juzMemorized;
 const dobInput = form.elements.dateOfBirth;
+const dobYear = document.querySelector("#dob-year");
+const dobMonth = document.querySelector("#dob-month");
+const dobDay = document.querySelector("#dob-day");
 const successBox = document.querySelector("#success-box");
 
 let lang = loadLang();
@@ -269,6 +278,7 @@ function render() {
   );
 
   renderGroupOptions();
+  renderDobOptions();
   renderDeadline();
   updateAgeHint();
   updateGroupHint();
@@ -285,6 +295,48 @@ function renderGroupOptions() {
   });
   groupSelect.replaceChildren(placeholder, ...options);
   groupSelect.value = selected;
+}
+
+// placeholder option rekhe baki option notun kore boshay, ager selection thakle rekhe dey.
+function fillSelect(select, items) {
+  const selected = select.value;
+  const options = items.map(([value, label]) => {
+    const option = el("option", "", label);
+    option.value = value;
+    return option;
+  });
+  select.replaceChildren(select.options[0], ...options);
+  select.value = options.some((o) => o.value === selected) ? selected : "";
+}
+
+// Bochor: competition-er bochor theke 3–20 bochor age porjonto (notun theke puron).
+function renderDobOptions() {
+  const digits = (n) => (lang === "bn" ? toBn(n) : String(n));
+  const eventYear = Number(config.eventDate.slice(0, 4));
+  const years = [];
+  for (let y = eventYear - 3; y >= eventYear - 20; y--) years.push([String(y), digits(y)]);
+  fillSelect(dobYear, years);
+
+  const monthName = new Intl.DateTimeFormat(lang === "bn" ? "bn-BD" : "en-GB", { month: "long", timeZone: "UTC" });
+  fillSelect(
+    dobMonth,
+    Array.from({ length: 12 }, (_, i) => [String(i + 1).padStart(2, "0"), monthName.format(Date.UTC(2000, i, 1))])
+  );
+
+  // Mash/bochor onujayi koto din (February 28/29 ityadi)
+  const daysInMonth = dobMonth.value
+    ? new Date(Date.UTC(Number(dobYear.value) || 2000, Number(dobMonth.value), 0)).getUTCDate()
+    : 31;
+  fillSelect(
+    dobDay,
+    Array.from({ length: daysInMonth }, (_, i) => [String(i + 1).padStart(2, "0"), digits(i + 1)])
+  );
+}
+
+function updateDob() {
+  renderDobOptions();
+  dobInput.value = dobYear.value && dobMonth.value && dobDay.value ? `${dobYear.value}-${dobMonth.value}-${dobDay.value}` : "";
+  updateAgeHint();
 }
 
 function renderDeadline() {
@@ -442,6 +494,8 @@ function showSuccess(id) {
 
 function resetForm() {
   form.reset();
+  dobInput.value = "";
+  renderDobOptions();
   showStatus("");
   successBox.hidden = true;
   updateGroupHint();
@@ -462,8 +516,7 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
 });
 
 groupSelect.addEventListener("change", updateGroupHint);
-dobInput.addEventListener("change", updateAgeHint);
-dobInput.max = new Date().toISOString().slice(0, 10);
+[dobYear, dobMonth, dobDay].forEach((select) => select.addEventListener("change", updateDob));
 form.addEventListener("submit", handleSubmit);
 form.addEventListener("input", (e) => e.target.removeAttribute("aria-invalid"));
 document.querySelector("#register-another").addEventListener("click", resetForm);

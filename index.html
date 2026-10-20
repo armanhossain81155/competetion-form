@@ -7,9 +7,9 @@
   <meta name="theme-color" content="#0f2a44">
   <title>Kids Qur'an Competition | Registration</title>
   <!-- ?v= number bariye dile phone-er browser notun file load korbe (cache e puron ta dekhabe na) -->
-  <link rel="stylesheet" href="style.css?v=5">
-  <script src="config.js?v=5" defer></script>
-  <script src="script.js?v=5" defer></script>
+  <link rel="stylesheet" href="style.css?v=6">
+  <script src="config.js?v=6" defer></script>
+  <script src="script.js?v=6" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -129,11 +129,23 @@
                 <option value="Female" data-i18n="female"></option>
               </select>
             </label>
-            <label class="field">
-              <span><span data-i18n="dob"></span> <b>*</b></span>
-              <input name="dateOfBirth" type="date" required>
+            <div class="field" role="group" aria-labelledby="dob-label">
+              <span id="dob-label"><span data-i18n="dob"></span> <b>*</b></span>
+              <!-- Mobile-e date picker-e bochor pichone newa kothin, tai tinta dropdown -->
+              <div class="dob-select">
+                <select id="dob-year" required>
+                  <option value="" disabled selected data-i18n="year"></option>
+                </select>
+                <select id="dob-month" required>
+                  <option value="" disabled selected data-i18n="month"></option>
+                </select>
+                <select id="dob-day" required>
+                  <option value="" disabled selected data-i18n="day"></option>
+                </select>
+              </div>
+              <input name="dateOfBirth" type="hidden">
               <small class="hint" id="age-hint"></small>
-            </label>
+            </div>
             <label class="field">
               <span><span data-i18n="group"></span> <b>*</b></span>
               <select name="group" id="group-select" required>
