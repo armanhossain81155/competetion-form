@@ -3,17 +3,221 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Competetion project starter">
-  <title>Competetion</title>
+  <meta name="description" content="Register online for the International Kids Qur'an Competition.">
+  <meta name="theme-color" content="#0f2a44">
+  <title>Kids Qur'an Competition | Registration</title>
   <link rel="stylesheet" href="style.css">
+  <script src="config.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
-  <main class="page">
-    <h1>Competetion</h1>
-    <p>Your project starts here.</p>
-    <button id="check-button" type="button">Test JavaScript</button>
-    <p id="status" class="status" aria-live="polite"></p>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Home">
+      <span class="brand-mark" aria-hidden="true">ق</span>
+      <span data-config="organizer.name"></span>
+    </a>
+    <div class="header-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="bn">বাং</button>
+      </div>
+      <a class="header-link" href="#registration"><span data-i18n="registerNow"></span> <span aria-hidden="true">↓</span></a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="bismillah" lang="ar">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+        <h1 id="page-title"><span data-config="title"></span><br><em data-config="region"></em></h1>
+        <p class="hero-description" data-config="hadith"></p>
+
+        <div class="event-card">
+          <div class="event-item">
+            <span class="event-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+            <div>
+              <strong id="event-date"></strong>
+              <span id="event-time"></span>
+            </div>
+          </div>
+          <a class="event-item" id="venue-link" target="_blank" rel="noopener">
+            <span class="event-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+            <div>
+              <strong data-config="venue.name"></strong>
+              <span data-config="venue.address"></span>
+            </div>
+          </a>
+        </div>
+        <ul class="hero-notes" id="event-notes"></ul>
+
+        <div class="deadline-badge" id="deadline-badge">
+          <span data-i18n="deadline"></span>
+          <strong id="deadline-date"></strong>
+          <em id="deadline-countdown"></em>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-ring ring-one"></div>
+        <div class="art-ring ring-two"></div>
+        <div class="art-moon">☾</div>
+        <div class="art-star">✦</div>
+        <div class="art-book"><span>۞</span><i></i><i></i><i></i><i></i></div>
+        <div class="art-caption">اقْرَأْ وَارْتَقِ</div>
+      </div>
+    </section>
+
+    <section class="info-section" aria-labelledby="guidelines-title">
+      <div class="info-block">
+        <p class="eyebrow" data-i18n="aboutEyebrow"></p>
+        <h2 id="guidelines-title" data-i18n="guidelines"></h2>
+        <p data-config="guidelines.intro"></p>
+        <ul class="check-list" id="guideline-points"></ul>
+        <p data-config="guidelines.closing"></p>
+      </div>
+
+      <div class="info-block">
+        <p class="eyebrow" data-i18n="groupsEyebrow"></p>
+        <h2 data-i18n="groups"></h2>
+        <div class="group-columns">
+          <div>
+            <h3 data-i18n="generalGroups"></h3>
+            <ul class="group-list" id="general-groups"></ul>
+          </div>
+          <div>
+            <h3 data-i18n="hifzGroups"></h3>
+            <ul class="group-list" id="hifz-groups"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <p class="eyebrow" data-i18n="prizesEyebrow"></p>
+        <h2 data-i18n="prizes"></h2>
+        <p data-config="prizes.title"></p>
+        <ol class="prize-list" id="prize-list"></ol>
+        <p class="prize-note" data-config="prizes.note"></p>
+      </div>
+    </section>
+
+    <section class="registration-section" id="registration" aria-labelledby="form-title">
+      <div class="form-intro">
+        <p class="eyebrow" data-i18n="formEyebrow"></p>
+        <h2 id="form-title" data-i18n="formTitle"></h2>
+        <p><span data-i18n="formIntro"></span> <span class="required-mark">*</span> <span data-i18n="requiredNote"></span></p>
+      </div>
+
+      <div class="closed-box" id="closed-box" hidden>
+        <strong data-i18n="closedTitle"></strong>
+        <p data-i18n="closedText"></p>
+      </div>
+
+      <form id="registration-form" novalidate>
+        <fieldset>
+          <legend data-i18n="participantInfo"></legend>
+          <div class="form-grid">
+            <label class="field">
+              <span><span data-i18n="participantName"></span> <b>*</b></span>
+              <input name="participantName" type="text" autocomplete="name" maxlength="100" required>
+            </label>
+            <label class="field">
+              <span><span data-i18n="gender"></span> <b>*</b></span>
+              <select name="gender" required>
+                <option value="" disabled selected data-i18n="select"></option>
+                <option value="Male" data-i18n="male"></option>
+                <option value="Female" data-i18n="female"></option>
+              </select>
+            </label>
+            <label class="field">
+              <span><span data-i18n="dob"></span> <b>*</b></span>
+              <input name="dateOfBirth" type="date" required>
+              <small class="hint" id="age-hint"></small>
+            </label>
+            <label class="field">
+              <span><span data-i18n="group"></span> <b>*</b></span>
+              <select name="group" id="group-select" required>
+                <option value="" disabled selected data-i18n="selectGroup"></option>
+              </select>
+              <small class="hint" id="group-hint"></small>
+            </label>
+            <label class="field" id="juz-field" hidden>
+              <span><span data-i18n="juzMemorized"></span> <b>*</b></span>
+              <input name="juzMemorized" type="number" inputmode="numeric" min="1" max="30">
+              <small class="hint" id="juz-hint"></small>
+            </label>
+            <label class="field">
+              <span data-i18n="institution"></span>
+              <input name="institution" type="text" maxlength="120">
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="guardianInfo"></legend>
+          <div class="form-grid">
+            <label class="field">
+              <span><span data-i18n="guardianName"></span> <b>*</b></span>
+              <input name="guardianName" type="text" maxlength="100" required>
+            </label>
+            <label class="field">
+              <span><span data-i18n="phone"></span> <b>*</b></span>
+              <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="090-1234-5678" pattern="[+0-9\s\-]{10,20}" required>
+            </label>
+            <label class="field">
+              <span data-i18n="email"></span>
+              <input name="email" type="email" autocomplete="email" maxlength="120" placeholder="name@example.com">
+            </label>
+            <label class="field">
+              <span><span data-i18n="city"></span> <b>*</b></span>
+              <input name="city" type="text" maxlength="80" required>
+            </label>
+            <label class="field field-wide">
+              <span data-i18n="notes"></span>
+              <textarea name="notes" rows="3" maxlength="500"></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Spam bot-der jonno lukano field; manush eta dekhbe na. -->
+        <input class="honeypot" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <label class="consent">
+          <input name="consent" type="checkbox" required>
+          <span data-i18n="consent"></span>
+        </label>
+        <button class="submit-button" type="submit">
+          <span data-i18n="submit"></span><span aria-hidden="true">→</span>
+        </button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="success-box" id="success-box" hidden tabindex="-1">
+        <span class="success-icon" aria-hidden="true">✓</span>
+        <h3 data-i18n="successTitle"></h3>
+        <p data-i18n="successText"></p>
+        <p class="reg-id"><span data-i18n="regId"></span> <strong id="reg-id"></strong></p>
+        <button type="button" class="link-button" id="register-another" data-i18n="registerAnother"></button>
+      </div>
+    </section>
+
+    <section class="contact-section" aria-labelledby="contact-title">
+      <div class="contact-inner">
+        <div>
+          <p class="eyebrow" data-i18n="contactEyebrow"></p>
+          <h2 id="contact-title" data-i18n="contact"></h2>
+          <p class="contact-langs"><span data-i18n="enquiries"></span> <span data-config="contacts.languages"></span></p>
+        </div>
+        <ul class="contact-list" id="contact-list"></ul>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div>
+      <span data-i18n="organizedBy"></span>
+      <strong data-config="organizer.name"></strong>
+      <small data-config="organizer.tagline"></small>
+    </div>
+    <span id="footer-year"></span>
+  </footer>
 </body>
 </html>
