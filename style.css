@@ -493,11 +493,59 @@ a.event-item:hover {
 }
 
 .info-block {
-  padding: 28px 26px;
-  border: 1px solid #ece9fb;
+  position: relative;
+  overflow: hidden;
+  padding: 32px 26px 28px;
+  border: 1px solid #ffffff;
   border-radius: var(--radius);
-  background: #fff;
+  background: linear-gradient(160deg, #eef0ff 0%, #f7efff 55%, #fff 100%);
   box-shadow: var(--shadow);
+}
+
+.info-block::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--grad);
+  content: "";
+}
+
+.info-block::after {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #a855f733, transparent 70%);
+  content: "";
+  pointer-events: none;
+}
+
+.info-block:nth-child(2) {
+  background: linear-gradient(160deg, #fdf0f8 0%, #f5efff 55%, #fff 100%);
+}
+
+.info-block:nth-child(2)::before {
+  background: var(--grad-warm);
+}
+
+.info-block:nth-child(2)::after {
+  background: radial-gradient(circle, #ec489933, transparent 70%);
+}
+
+.info-block:nth-child(3) {
+  background: linear-gradient(160deg, #ebfbf8 0%, #eef2ff 55%, #fff 100%);
+}
+
+.info-block:nth-child(3)::before {
+  background: var(--grad-cool);
+}
+
+.info-block:nth-child(3)::after {
+  background: radial-gradient(circle, #14b8a633, transparent 70%);
 }
 
 .info-block > p {
@@ -581,8 +629,10 @@ h3 {
   gap: 10px;
   margin-bottom: 8px;
   padding: 10px 14px;
+  border: 1px solid #ffffff;
   border-radius: 12px;
-  background: linear-gradient(120deg, #eef2ff, #fdf4ff);
+  background: #ffffffb3;
+  box-shadow: 0 4px 12px -6px #ec489940;
   font-size: 13px;
 }
 
@@ -652,32 +702,66 @@ h3 {
 /* ---------- Form ---------- */
 
 .registration-section {
+  position: relative;
   width: min(100% - 3rem, 860px);
   margin: 70px auto 0;
   padding: 44px;
+  overflow: hidden;
   border: 1.5px solid transparent;
   border-radius: 28px;
-  background: linear-gradient(#fff, #fff) padding-box, var(--grad) border-box;
-  box-shadow: 0 40px 80px -30px #6366f160;
+  background:
+    radial-gradient(420px 320px at 0% 0%, #6366f1aa, transparent 70%) padding-box,
+    radial-gradient(420px 360px at 100% 100%, #ec4899aa, transparent 70%) padding-box,
+    radial-gradient(360px 300px at 100% 0%, #14b8a666, transparent 70%) padding-box,
+    linear-gradient(160deg, #1a1145, #0e0a24) padding-box,
+    linear-gradient(140deg, #818cf8, #c084fc 40%, #f472b6 70%, #2dd4bf) border-box;
+  box-shadow: 0 40px 80px -30px #6366f1a0;
+  color: #fff;
+  color-scheme: dark;
+  isolation: isolate;
+}
+
+.registration-section::before {
+  position: absolute;
+  z-index: -1;
+  top: 30%;
+  left: 40%;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #a855f755, transparent 70%);
+  content: "";
+  filter: blur(40px);
+  animation: drift 14s ease-in-out infinite alternate;
 }
 
 .form-intro {
   margin-bottom: 26px;
 }
 
-h2#form-title {
-  font-size: 32px;
+.registration-section h2#form-title {
+  background: linear-gradient(120deg, #fff, #e9d5ff 50%, #fbcfe8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 34px;
+}
+
+.registration-section .eyebrow {
+  background: var(--grad-warm);
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 .form-intro > p:last-child {
   margin: 0;
-  color: var(--muted);
+  color: #c9c6ea;
   font-size: 13px;
 }
 
 .required-mark,
 .field b {
-  color: var(--pink);
+  color: #f9a8d4;
 }
 
 fieldset {
@@ -693,15 +777,24 @@ legend {
   width: 100%;
   margin-bottom: 16px;
   padding: 0;
-  color: var(--ink);
+  color: #fff;
   font-size: 15px;
   font-weight: 700;
+}
+
+legend::before {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--grad-warm);
+  box-shadow: 0 0 12px #f472b6;
+  content: "";
 }
 
 legend::after {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, #c7d2fe, transparent);
+  background: linear-gradient(90deg, #c084fc, transparent);
   content: "";
 }
 
@@ -716,7 +809,7 @@ legend::after {
   min-width: 0;
   flex-direction: column;
   gap: 7px;
-  color: #3f3b62;
+  color: #e4e1ff;
   font-size: 13px;
   font-weight: 600;
 }
@@ -727,14 +820,22 @@ legend::after {
   width: 100%;
   min-height: 48px;
   padding: 12px 14px;
-  border: 1.5px solid #e4e2f3;
+  border: 1.5px solid #ffffff26;
   border-radius: 12px;
   outline: none;
-  background: #faf9ff;
-  color: var(--ink);
+  background: #ffffff12;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
   font-size: 14px;
   font-weight: 400;
   transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: #ffffff44;
 }
 
 .field textarea {
@@ -744,28 +845,32 @@ legend::after {
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: #a8a5c4;
+  color: #9b97c4;
 }
 
+/* Focus korle gradient border */
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
-  border-color: var(--violet);
-  background: #fff;
-  box-shadow: 0 0 0 4px #a855f71f;
+  border-color: transparent;
+  background:
+    linear-gradient(#22185a, #22185a) padding-box,
+    linear-gradient(120deg, #818cf8, #c084fc, #f472b6) border-box;
+  box-shadow: 0 0 0 4px #c084fc33, 0 10px 30px -10px #c084fc;
 }
 
 .field [aria-invalid="true"] {
-  border-color: #e11d48;
-  box-shadow: 0 0 0 4px #e11d481a;
+  border-color: #fb7185;
+  box-shadow: 0 0 0 4px #fb718533;
 }
 
 .field select:invalid {
-  color: #a8a5c4;
+  color: #9b97c4;
 }
 
 .field select option {
-  color: var(--ink);
+  background: #1a1145;
+  color: #fff;
 }
 
 .field-wide {
@@ -774,7 +879,7 @@ legend::after {
 
 .hint {
   min-height: 0;
-  color: #7c3aed;
+  color: #c4b5fd;
   font-size: 12px;
   font-weight: 500;
 }
@@ -795,7 +900,11 @@ legend::after {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  color: var(--muted);
+  padding: 14px 16px;
+  border: 1px solid #ffffff1f;
+  border-radius: 14px;
+  background: #ffffff0d;
+  color: #c9c6ea;
   font-size: 12px;
   line-height: 1.8;
 }
@@ -805,7 +914,7 @@ legend::after {
   height: 18px;
   flex: 0 0 18px;
   margin: 2px 0 0;
-  accent-color: var(--violet);
+  accent-color: #e879f9;
 }
 
 .submit-button {
@@ -820,20 +929,26 @@ legend::after {
   overflow: hidden;
   border: 0;
   border-radius: 14px;
-  background: var(--grad);
-  background-size: 200% 100%;
+  background: linear-gradient(120deg, var(--indigo), var(--violet), var(--pink), var(--amber), var(--pink), var(--violet));
+  background-size: 300% 100%;
   color: #fff;
   cursor: pointer;
   font-size: 15px;
   font-weight: 600;
-  box-shadow: 0 16px 30px -12px #a855f7aa;
+  box-shadow: 0 16px 34px -10px #ec4899aa;
+  animation: shimmer 8s linear infinite;
   transition: background-position 400ms ease, transform 150ms ease, box-shadow 150ms ease;
 }
 
+@keyframes shimmer {
+  to {
+    background-position: 300% 0;
+  }
+}
+
 .submit-button:hover {
-  background-position: 100% 0;
-  box-shadow: 0 20px 36px -12px #ec4899aa;
-  transform: translateY(-1px);
+  box-shadow: 0 22px 40px -10px #ec4899dd;
+  transform: translateY(-2px);
 }
 
 .submit-button:active {
@@ -857,19 +972,20 @@ a:focus-visible {
 .form-status {
   min-height: 22px;
   margin: 12px 0 0;
-  color: #0f766e;
+  color: #5eead4;
   font-size: 13px;
 }
 
 .form-status.error {
-  color: #be123c;
+  color: #fda4af;
 }
 
 .closed-box {
   padding: 22px;
+  border: 1px solid #ffffff1f;
   border-radius: 16px;
-  background: #f1f5f9;
-  color: #334155;
+  background: #ffffff0f;
+  color: #e4e1ff;
 }
 
 .closed-box p {
@@ -903,7 +1019,7 @@ a:focus-visible {
 .success-box p {
   max-width: 480px;
   margin: 0 auto;
-  color: var(--muted);
+  color: #c9c6ea;
   font-size: 14px;
   line-height: 1.8;
 }
@@ -912,13 +1028,14 @@ a:focus-visible {
   display: inline-block;
   margin-top: 18px;
   padding: 10px 18px;
+  border: 1px solid #ffffff26;
   border-radius: 12px;
-  background: linear-gradient(120deg, #eef2ff, #fdf4ff);
-  color: var(--ink);
+  background: #ffffff12;
+  color: #fff;
 }
 
 .reg-id strong {
-  background: var(--grad);
+  background: var(--grad-warm);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -930,7 +1047,7 @@ a:focus-visible {
   margin: 20px auto 0;
   border: 0;
   background: none;
-  color: var(--violet);
+  color: #f0abfc;
   cursor: pointer;
   font-weight: 600;
   text-decoration: underline;
