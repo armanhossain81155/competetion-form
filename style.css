@@ -1006,6 +1006,15 @@ legend::after {
   padding-inline: 10px;
 }
 
+/* iPhone/iPad Safari 16px-er choto input-e tap korle page zoom kore, tai touch screen-e 16px */
+@media (pointer: coarse) {
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 16px;
+  }
+}
+
 .hint {
   min-height: 0;
   color: #c4b5fd;

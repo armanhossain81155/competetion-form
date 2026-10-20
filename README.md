@@ -45,7 +45,7 @@ Website link diye QR code banan (jemon [qr-code-generator.com](https://www.qr-co
    - `sheetName` → notun bochor (jemon `"2027"`). Sheet-e nije theke notun tab toiri hobe, ager bochorer data thik thakbe.
    - `registrationDeadline`, `eventDate`
    - `region`, `venue`, `groups`, `prizes`, `contacts` dorkar hole
-2. `index.html`-e `?v=5` gulo ke ek bariye din (jemon `?v=6`). Na korle kichu phone cache theke puron tarikh dekhabe.
+2. `index.html`-e `?v=` number gulo ek bariye din (jemon `?v=7` theke `?v=8`). Na korle kichu phone cache theke puron tarikh dekhabe.
 3. GitHub-e push korun (ba Netlify-te abar folder drag korun). Link eki thakbe.
 
 Google Apps Script abar deploy korte **hobe na**.
